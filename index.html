@@ -297,6 +297,7 @@
         let dataCollected = 0;
         let timeRemaining = 0;
         let gameInterval;
+        let timerInterval;
         let playerX = 400;
         let playerY = 300;
         let dataFragments = [];
@@ -389,11 +390,30 @@
             player.style.left = `${playerX}px`;
             player.style.top = `${playerY}px`;
             
-            // Start timer
+            // Start game loop
             if (gameInterval) {
                 clearInterval(gameInterval);
             }
             gameInterval = setInterval(updateGame, 1000 / 60); // 60 FPS
+
+            // Start timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            timerInterval = setInterval(updateTimer, 1000); // 1 second
+        }
+
+        // Update the timer
+        function updateTimer() {
+            if (!gameRunning) return;
+
+            timeRemaining--;
+            timeDisplay.textContent = timeRemaining;
+            timerProgress.style.width = `${(timeRemaining / levels[currentLevel].timeLimit) * 100}%`;
+
+            if (timeRemaining <= 0) {
+                endGame(false);
+            }
         }
 
         // Clear game elements
