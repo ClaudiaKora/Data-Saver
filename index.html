@@ -179,7 +179,7 @@
             <p>Important data is disappearing across digital systems. Your mission is to collect data fragments before they're lost forever!</p>
             <p>Use ARROW KEYS or WASD to move. Collect blue data fragments while avoiding red obstacles.</p>
             <div class="level-description">
-                <h3>LEVEL 1: PERSONAL ARCHIVES</h3>
+                <h3>LEVEL 1: PERSONAL DATA</DATA></h3>
                 <p>Rescue family photos and personal documents from a corrupted home storage device.</p>
                 <p>Time Limit: 3 minutes</p>
             </div>
@@ -614,42 +614,45 @@
         function completeLevel() {
             gameRunning = false;
             clearInterval(gameInterval);
-            
+
             // Calculate final score
             const timeBonus = timeRemaining * 10;
             levelScore += timeBonus;
             totalScore += timeBonus;
-            
+
             // Update completion screen
             document.getElementById('final-data-collected').textContent = dataCollected;
             document.getElementById('final-total-data').textContent = levels[currentLevel].dataFragments;
             document.getElementById('final-time').textContent = timeRemaining;
             document.getElementById('level-score').textContent = levelScore;
             document.getElementById('total-score').textContent = totalScore;
-            
+
             // Display rewards
             const rewardsList = document.getElementById('rewards-list');
             rewardsList.innerHTML = '';
             const levelRewards = levels[currentLevel].rewards;
             const rewardCount = Math.ceil((dataCollected / levels[currentLevel].dataFragments) * levelRewards.length);
-            
+
             for (let i = 0; i < rewardCount; i++) {
                 const rewardItem = document.createElement('div');
                 rewardItem.className = 'reward-item';
                 rewardItem.textContent = levelRewards[i];
                 rewardsList.appendChild(rewardItem);
             }
-            
+
             // Show level complete screen
             levelCompleteScreen.classList.remove('hidden');
-            
-            // Check if this was the final level
+
+            // Update the next level button
             if (currentLevel >= levels.length - 1) {
                 nextLevelButton.textContent = 'MISSION COMPLETE!';
-                nextLevelButton.onclick = restartGame;
+                nextLevelButton.onclick = restartGame; // Restart the game if it's the last level
             } else {
                 nextLevelButton.textContent = 'PROCEED TO NEXT LEVEL';
-                nextLevelButton.onclick = startNextLevel;
+                nextLevelButton.onclick = () => {
+                    levelCompleteScreen.classList.add('hidden');
+                    startNextLevel();
+                };
             }
         }
 
