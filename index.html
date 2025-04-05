@@ -686,10 +686,11 @@
         function restartGame() {
             gameOverScreen.classList.add('hidden');
             levelCompleteScreen.classList.add('hidden');
-            startScreen.classList.remove('hidden');
-            currentLevel = 0;
-            totalScore = 0;
+            startScreen.classList.add('hidden'); // Keep the start screen hidden
             updateLevelInfo();
+            initLevel(); // Reinitialize the current level
+            gameRunning = true;
+            gameLoop(); // Restart the game loop
         }
 
         // Initialize the game
