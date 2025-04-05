@@ -649,23 +649,19 @@
                 nextLevelButton.onclick = restartGame; // Restart the game if it's the last level
             } else {
                 nextLevelButton.textContent = 'PROCEED TO NEXT LEVEL';
-                nextLevelButton.onclick = () => {
-                    levelCompleteScreen.classList.add('hidden');
-                    startNextLevel();
-                };
             }
         }
 
         // Start next level
         function startNextLevel() {
             levelCompleteScreen.classList.add('hidden');
-            currentLevel++;
-            
+            currentLevel++; // Increment the level by 1
+
             if (currentLevel >= levels.length) {
-                restartGame();
+                restartGame(); // Restart the game if no more levels
                 return;
             }
-            
+
             updateLevelInfo();
             initLevel();
             gameRunning = true;
@@ -690,8 +686,10 @@
             gameOverScreen.classList.add('hidden');
             levelCompleteScreen.classList.add('hidden');
             startScreen.classList.add('hidden'); // Keep the start screen hidden
+            currentLevel = 0; // Reset to the first level
+            totalScore = 0; // Reset the total score
             updateLevelInfo();
-            initLevel(); // Reinitialize the current level
+            initLevel(); // Reinitialize the first level
             gameRunning = true;
             gameLoop(); // Restart the game loop
         }
